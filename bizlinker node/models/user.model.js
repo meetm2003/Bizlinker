@@ -70,6 +70,7 @@ const userSchema = new mongoose.Schema({
         {
             userId: {
                 type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
             },
             rating: {
                 type: Number,

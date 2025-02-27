@@ -5,6 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 2333;
 
 const connectDB = require("./database/connection");
+const authRoute = require("./routes/auth.route")
 const userRoute = require("./routes/user.route");
 const maketplaceRoute = require("./routes/marketplace.route");
 const referralRoute = require("./routes/referral.route");
@@ -14,6 +15,9 @@ app.use(express.json());
 
 // Middleware to parse x-www-form-urlencoded data
 app.use(express.urlencoded({ extended: true }));
+
+// Auth Routes
+app.use("/api", authRoute);
 
 // User Routes
 app.use("/api", userRoute);
