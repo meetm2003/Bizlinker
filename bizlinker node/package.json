@@ -1,0 +1,29 @@
+{
+  "name": "bizlinker",
+  "version": "1.0.0",
+  "description": "project",
+  "homepage": "https://github.com/meetm2003/Bizlinker#readme",
+  "bugs": {
+    "url": "https://github.com/meetm2003/Bizlinker/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meetm2003/Bizlinker.git"
+  },
+  "license": "ISC",
+  "author": "Meet Mistry",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongodb": "^6.13.0",
+    "mongoose": "^8.10.1",
+    "nodemon": "^3.1.9"
+  }
+}
