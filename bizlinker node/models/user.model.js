@@ -40,6 +40,13 @@ const userSchema = new mongoose.Schema({
         type: [String],
         default: [],
     },
+    verified: {
+        type: Boolean,
+        default: false,
+    },
+    verificationCode: {
+        type: String
+    },
     businessPortfolio: [{
         title: {
             type: String,
@@ -70,6 +77,7 @@ const userSchema = new mongoose.Schema({
         {
             userId: {
                 type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
             },
             rating: {
                 type: Number,

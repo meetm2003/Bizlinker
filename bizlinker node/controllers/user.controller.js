@@ -209,9 +209,8 @@ const updateUser = async (req, res) => {
 // Delete user
 const deleteUser = async (req, res) => {
 
-    const { id } = req.params; // Get user ID from the URL parameter
+    const { id } = req.params;
 
-    // Find the user by ID and remove
     const deletedUser = await User.findByIdAndDelete(id);
 
     if (!deletedUser) {
@@ -231,4 +230,30 @@ const deleteUser = async (req, res) => {
     }
 };
 
-module.exports = { getAllUsers, getUserByEmail, createUser, updateUser, deleteUser, addBusinessPortfolio, addFeedback };
+// Delete user when varified is false
+const deleteDisproveUser = async (req, res) => {
+
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+
+    try {
+        console.log("called");
+        
+        const result = await User.deleteMany({
+            verified: false,
+            createdAt: { $lt: fiveMinutesAgo },
+        });
+        console.log(result);
+        
+
+        res.status(200).json({
+            message: "Users are deleted successfully",
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: error.message
+        });
+    }
+};
+
+module.exports = { getAllUsers, getUserByEmail, createUser, updateUser, deleteUser, addBusinessPortfolio, addFeedback, deleteDisproveUser };

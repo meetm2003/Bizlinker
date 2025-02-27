@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const ReferralProgram = new mongoose.Schema({
     requesterId:{
         type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         required: true,
     },
     companyName:{
@@ -17,6 +18,7 @@ const ReferralProgram = new mongoose.Schema({
         {
             referrerId:{
                 type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
             },
             status:{
                 type: String,
@@ -37,6 +39,7 @@ const ReferralProgram = new mongoose.Schema({
         {
             userId: {
                 type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
             },
             rating: {
                 type: Number,
