@@ -5,7 +5,11 @@ const app = express();
 const PORT = process.env.PORT || 2333;
 
 const connectDB = require("./database/connection");
+<<<<<<< HEAD
 const authRoute = require("./routes/auth.route");
+=======
+const authRoute = require("./routes/auth.route")
+>>>>>>> 1c62170e4f8d3ed68182907be35c41edffa643bb
 const userRoute = require("./routes/user.route");
 const maketplaceRoute = require("./routes/marketplace.route");
 const referralRoute = require("./routes/referral.route");

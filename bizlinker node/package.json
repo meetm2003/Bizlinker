@@ -22,7 +22,10 @@
     "bcryptjs": "^3.0.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+<<<<<<< HEAD
     "joi": "^17.13.3",
+=======
+>>>>>>> 1c62170e4f8d3ed68182907be35c41edffa643bb
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.13.0",
     "mongoose": "^8.10.1",
