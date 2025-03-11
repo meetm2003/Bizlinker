@@ -11,12 +11,16 @@ const maketplaceRoute = require("./routes/marketplace.route");
 const referralRoute = require("./routes/referral.route");
 const postRoute = require("./routes/postCollection.route");
 const messageRoute = require("./routes/message.route");
+const uploadRoute = require("./routes/upload.routes");
 
 // Middleware to parse JSON bodies
 app.use(express.json());
 
 // Middleware to parse x-www-form-urlencoded data
 app.use(express.urlencoded({ extended: true }));
+
+// image upload routes
+app.use('/api', uploadRoute);
 
 // Auth Routes
 app.use("/api", authRoute);
