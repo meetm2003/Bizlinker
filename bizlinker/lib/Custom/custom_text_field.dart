@@ -1,4 +1,5 @@
 import 'package:bizlinker/app_export.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -32,8 +33,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
     }
 
     if (file != null) {
+      String? base64Image = await convertImageToBase64(file);
       setState(() {
-        _selectedFile = file;
+        if (base64Image != null) {
+          widget.controller.text = base64Image;
+        }
       });
     }
   }
@@ -125,8 +129,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
           controller: widget.controller,
           keyboardType: _getKeyboardType(widget.type),
           obscureText: widget.type == "password",
+          maxLength: widget.type == "mobile" ? 10 : null,
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
+            counterText: '',
             hintText: widget.hintText,
             hintStyle: const TextStyle(color: Colors.white70),
             filled: true,

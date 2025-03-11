@@ -25,3 +25,4 @@ export 'Services/register_api.dart';
 export 'package:bizlinker/Custom/custom_text_field.dart';
 export 'package:bizlinker/Custom/custom_button.dart';
 export 'package:bizlinker/Custom/custom_text.dart';
+export 'package:bizlinker/Custom/img_to_base64_fun.dart';

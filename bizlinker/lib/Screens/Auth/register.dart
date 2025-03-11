@@ -19,6 +19,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
+  String? checkPass(BuildContext context, String pass, String confirmPass) {
+    if (pass == confirmPass) {
+      return confirmPass;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text("Passwords are not match, please check"),
+          duration: Duration(seconds: 1),
+        ),
+      );
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,11 +45,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 30),
+
               CustomTextField(
-                  hintText: "",
-                  controller: profilePicController,
-                  type: "profile"),
+                hintText: "",
+                controller: profilePicController,
+                type: "profile",
+              ),
+
               const SizedBox(height: 10),
+
               CustomText(
                 text: "Create an Account",
               ),
@@ -109,17 +127,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
               CustomButton(
                 text: "Register",
                 onPressed: () async {
-                  final responce = await ApiUrls.registerUser(
-                    nameController.text,
-                    emailController.text,
-                    mobileController.text,
-                    roleController.text,
-                    dobController.text,
-                    skillsController.text,
-                    profilePicController.text,
+                  String? validPassword = checkPass(
+                    context,
+                    passwordController.text,
                     confirmPasswordController.text,
                   );
-                  print("API SIGN IN -> $responce");
+                  if (validPassword != null) {
+                    final responce = await ApiUrls.registerUser(
+                      nameController.text,
+                      emailController.text,
+                      mobileController.text,
+                      roleController.text,
+                      dobController.text,
+                      skillsController.text,
+                      profilePicController.text,
+                      confirmPasswordController.text,
+                    );
+                    print("API SIGN IN -> $responce");
+                  }
                 },
                 isFullWidth: true,
               ),

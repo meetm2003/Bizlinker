@@ -1,10 +1,7 @@
-
 import 'package:dio/dio.dart' as d;
 
 class ApiUrls {
-  static const String baseUrl = "https://1xnj0c9p-2333.inc1.devtunnels.ms/api/";
-  static const String registerUrl = "${baseUrl}auth/register";
-  static const String getUserUrl = "${baseUrl}users/";
+  static const String registerUrl = "http://192.168.1.68:2333/api/auth/register";
 
   static Future<d.Response?> registerUser(
     String name,
@@ -23,7 +20,7 @@ class ApiUrls {
       "passwordHash": password,
       "role": role,
       "dob": dob,
-      "profilePic": "profilePic",
+      "profilePic": profilePic,
       "skills": skill,
     };
     final dio = d.Dio();
