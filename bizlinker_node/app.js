@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+const cors = require('cors');
 
 const PORT = process.env.PORT || 2333;
 
@@ -18,6 +19,8 @@ app.use(express.json());
 
 // Middleware to parse x-www-form-urlencoded data
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cors());
 
 // image upload routes
 app.use('/api', uploadRoute);
