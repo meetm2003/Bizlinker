@@ -165,6 +165,62 @@ const addFeedback = async (req, res) => {
     }
 };
 
+// Add a connection
+const addConnection = async (req, res) => {
+    const { userId } = req.params; // Current user ID
+    const { connectionId } = req.body; // User ID to add
+    
+    if (userId === connectionId) {
+        return res.status(400).json({ message: "User cannot add themselves as a connection" });
+    }
+
+    try {
+        const user = await User.findById(userId);
+        const connectionUser = await User.findById(connectionId);
+
+        if (!user || !connectionUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (user.connections.includes(connectionId)) {
+            return res.status(400).json({ message: "User is already in connections" });
+        }
+
+        user.connections.push(connectionId);
+        await user.save();
+
+        res.status(200).json({ message: "User added to connections", data: user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error while adding connection" });
+    }
+};
+
+// Remove a connection
+const removeConnection = async (req, res) => {
+    const { userId } = req.params; // Current user ID
+    const { connectionId } = req.body; // User ID to remove
+
+    try {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (!user.connections.includes(connectionId)) {
+            return res.status(400).json({ message: "User is not in connections" });
+        }
+
+        user.connections = user.connections.filter(id => id.toString() !== connectionId);
+        await user.save();
+
+        res.status(200).json({ message: "User removed from connections", data: user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error while removing connection" });
+    }
+};
 
 // Update the user
 const updateUser = async (req, res) => {
@@ -237,13 +293,13 @@ const deleteDisproveUser = async (req, res) => {
 
     try {
         console.log("called");
-        
+
         const result = await User.deleteMany({
             verified: false,
             createdAt: { $lt: fiveMinutesAgo },
         });
         console.log(result);
-        
+
 
         res.status(200).json({
             message: "Users are deleted successfully",
@@ -256,4 +312,4 @@ const deleteDisproveUser = async (req, res) => {
     }
 };
 
-module.exports = { getAllUsers, getUserByEmail, createUser, updateUser, deleteUser, addBusinessPortfolio, addFeedback, deleteDisproveUser };
+module.exports = { getAllUsers, getUserByEmail, createUser, updateUser, deleteUser, addBusinessPortfolio, addFeedback, addConnection, removeConnection, deleteDisproveUser };
