@@ -1,41 +1,32 @@
+import 'package:bizlinker/app_export.dart';
 import 'package:dio/dio.dart' as d;
 
-class ApiUrls {
-  static const String registerUrl =
-      "https://bizlinker.onrender.com/api/auth/register";
+class LoginApiUrls {
+  static const String loginUrl =
+      "https://bizlinker.onrender.com/api/auth/login";
 
-  static Future<d.Response?> registerUser(
-    String name,
+  static Future<d.Response?> loginUser(
     String email,
-    String mobile,
-    String role,
-    String dob,
-    String skill,
-    String profilePic,
     String password,
   ) async {
     final json = {
-      "name": name,
       "email": email,
-      "phone": mobile,
-      "passwordHash": password,
-      "role": role,
-      "dob": dob,
-      "profilePic": profilePic,
-      "skills": skill,
+      "password": password,
     };
     final dio = d.Dio();
     print("REQUEST DATA : $json");
     try {
       final response = await dio.postUri(
-        Uri.parse(registerUrl),
+        Uri.parse(loginUrl),
         data: json,
         options: d.Options(
           followRedirects: false,
           validateStatus: (status) => true,
+          responseType: d.ResponseType.json,
         ),
       );
-      print("----> $response");
+      print("----> ${response.data}");
+      print("RESPONSE STATUS: ${response.statusCode}");
 
       return response;
     } on d.DioException catch (error) {

@@ -1,33 +1,25 @@
+import 'package:bizlinker/Controllers/onboarding_controller.dart';
 import 'package:bizlinker/app_export.dart';
 
-class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+class OnboardingScreen extends StatelessWidget {
+  final OnboardingController controller = Get.put(OnboardingController());
+  final AuthController authController = Get.find();
 
-  @override
-  _OnboardingScreenState createState() => _OnboardingScreenState();
-}
-
-class _OnboardingScreenState extends State<OnboardingScreen> {
-  final PageController _controller = PageController();
-  int currentPage = 0;
+  OnboardingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF121717),
+      backgroundColor: const Color(0xFF121717),
       body: SafeArea(
         child: Stack(
           children: [
             PageView(
-              controller: _controller,
-              onPageChanged: (index) {
-                setState(() {
-                  currentPage = index;
-                });
-              },
+              controller: controller.pageController,
+              onPageChanged: controller.updatePage,
               children: const [
                 OnboardingPage(
-                  image: Icons.public, // Change to a relevant icon or image
+                  image: Icons.public,
                   title: "Connect Local to Global",
                   description: "Expand your market reach beyond boundaries.",
                 ),
@@ -38,7 +30,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       "Business owners can share RFQs and place bids. Explore product and service listings.",
                 ),
                 OnboardingPage(
-                  image: Icons.share, // Change to a relevant icon or image
+                  image: Icons.share,
                   title: "Referral Sharing",
                   description:
                       "Business owners can refer users to companies or individuals, enabling better connections.",
@@ -50,12 +42,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               right: 20,
               child: TextButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginScreen(),
-                    ),
-                  );
+                  authController.setOnboardingSeen(); // Mark onboarding as seen
+                  Get.offAll(() => LoginScreen()); // Navigate to LoginScreen
                 },
                 child: const Text(
                   "Skip",
@@ -68,14 +56,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               left: 0,
               right: 0,
               child: Center(
-                child: currentPage == 2
+                child: Obx(() => controller.currentPage.value == 2
                     ? ElevatedButton(
                         onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen()),
-                          );
+                          authController
+                              .setOnboardingSeen(); // Mark onboarding as seen
+                          Get.offAll(
+                              () => LoginScreen()); // Navigate to LoginScreen
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.lightBlue,
@@ -91,15 +78,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ),
                       )
                     : SmoothPageIndicator(
-                        controller: _controller,
+                        controller: controller.pageController,
                         count: 3,
-                        effect: WormEffect(
+                        effect: const WormEffect(
                           activeDotColor: Colors.white,
                           dotColor: Colors.grey,
                           dotHeight: 8,
                           dotWidth: 8,
                         ),
-                      ),
+                      )),
               ),
             ),
           ],

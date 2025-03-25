@@ -1,34 +1,22 @@
 import 'package:dio/dio.dart' as d;
 
-class ApiUrls {
-  static const String registerUrl =
-      "https://bizlinker.onrender.com/api/auth/register";
+class OtpVerifyApi {
+  static const String verifyUrl =
+      "https://bizlinker.onrender.com/api/auth/verify";
 
-  static Future<d.Response?> registerUser(
-    String name,
+  static Future<d.Response?> verifyUser(
     String email,
-    String mobile,
-    String role,
-    String dob,
-    String skill,
-    String profilePic,
-    String password,
+    String verificationCode,
   ) async {
     final json = {
-      "name": name,
       "email": email,
-      "phone": mobile,
-      "passwordHash": password,
-      "role": role,
-      "dob": dob,
-      "profilePic": profilePic,
-      "skills": skill,
+      "verificationCode": verificationCode,
     };
     final dio = d.Dio();
     print("REQUEST DATA : $json");
     try {
       final response = await dio.postUri(
-        Uri.parse(registerUrl),
+        Uri.parse(verifyUrl),
         data: json,
         options: d.Options(
           followRedirects: false,
